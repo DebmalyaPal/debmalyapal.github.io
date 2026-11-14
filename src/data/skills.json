@@ -1,0 +1,22 @@
+[
+  {
+    "group": "Agentic systems & retrieval",
+    "items": ["RAG", "Hybrid retrieval (BM25 + dense)", "Re-ranking", "Embeddings & chunking", "Qdrant", "FAISS", "LangGraph", "LangChain", "Tool use", "Context engineering", "Multi-step reasoning", "Self-correction"]
+  },
+  {
+    "group": "Interpretability, reliability & evaluation",
+    "items": ["Linear probing", "TransformerLens", "Fine-tuning", "Trajectory- and task-level agent evaluation", "Guardrails", "Hallucination mitigation", "Observability & tracing", "Latency/cost trade-offs"]
+  },
+  {
+    "group": "Languages & ML",
+    "items": ["Python", "Java", "TypeScript", "SQL", "PyTorch", "Transformers", "Classification & regression", "Clustering", "PCA", "NLP"]
+  },
+  {
+    "group": "Engineering & cloud",
+    "items": ["Spring Boot", "Flask", "FastAPI", "React", "REST", "GraphQL", "WebSockets", "Microservices", "Docker", "Kubernetes", "AWS (Lambda, S3, RDS, ECR, EKS, SQS)", "PostgreSQL", "MongoDB", "DynamoDB", "Redis", "CI/CD"]
+  },
+  {
+    "group": "Hardware & embedded",
+    "items": ["Raspberry Pi", "Arduino", "GPIO interfacing", "Hardware–software integration"]
+  }
+]

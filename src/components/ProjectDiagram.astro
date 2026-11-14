@@ -1,0 +1,38 @@
+---
+/**
+ * Renders the conceptual diagram a project declares in projects.json (`diagram`).
+ * Islands hydrate only when scrolled into view; the server-rendered markup is already complete
+ * and readable, so the diagram works without JavaScript (minus the stepping controls).
+ */
+import ConceptualDag from '@/islands/ConceptualDag';
+import ReflectionPaths from '@/islands/ReflectionPaths';
+import type { Project } from '@/lib/schema';
+import { content } from '@/lib/data';
+
+interface Props {
+  diagram: Project['diagram'];
+}
+
+const { diagram } = Astro.props;
+const { diagrams, site } = content;
+const { labels } = site;
+---
+
+{
+  diagram === 'claro-dag' && (
+    <ConceptualDag
+      client:visible
+      data={diagrams.claroDag}
+      labels={{ previous: labels.previousStage, next: labels.nextStage, step: labels.stages }}
+    />
+  )
+}
+{
+  diagram === 'reflection-paths' && (
+    <ReflectionPaths
+      client:visible
+      data={diagrams.reflectionPaths}
+      labels={{ outcomes: labels.outcomes, better: labels.better, worse: labels.worse }}
+    />
+  )
+}

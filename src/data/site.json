@@ -1,0 +1,226 @@
+{
+  "title": "Debmalya Pal",
+  "titleTemplate": "%s | Debmalya Pal",
+  "description": "Debmalya Pal — Graduate Student Researcher at UC San Diego working on trustworthy AI, interpretability, LLM reasoning, and multi-agent systems.",
+  "locale": "en_US",
+  "nav": [
+    {
+      "label": "Research",
+      "href": "research/"
+    },
+    {
+      "label": "Projects",
+      "href": "projects/"
+    },
+    {
+      "label": "Publications",
+      "href": "publications/"
+    },
+    {
+      "label": "Writing",
+      "href": "blog/"
+    },
+    {
+      "label": "Experience",
+      "href": "experience/"
+    },
+    {
+      "label": "Teaching",
+      "href": "teaching/"
+    },
+    {
+      "label": "About",
+      "href": "about/"
+    },
+    {
+      "label": "Contact",
+      "href": "contact/"
+    }
+  ],
+  "pages": {
+    "home": {
+      "description": "Debmalya Pal — Graduate Student Researcher at UC San Diego working on trustworthy AI, interpretability, LLM reasoning, and multi-agent systems."
+    },
+    "research": {
+      "title": "Research",
+      "eyebrow": "01 · Research",
+      "heading": "Research atlas",
+      "description": "Research themes — interpretability, LLM reasoning, multi-agent systems, and trustworthy AI — and the projects and publications behind them."
+    },
+    "projects": {
+      "title": "Projects",
+      "eyebrow": "02 · Projects",
+      "heading": "Projects",
+      "lede": "Research prototypes and engineering systems. Filter by theme, type, or status.",
+      "description": "Research and engineering projects by Debmalya Pal, including When2Reflect and CLARO."
+    },
+    "publications": {
+      "title": "Publications",
+      "eyebrow": "03 · Publications",
+      "heading": "Publications",
+      "lede": "Papers on interpretability, uncertainty, and privacy-preserving language modeling. Links appear here once a public version is available.",
+      "description": "Publications by Debmalya Pal on interpretability, uncertainty, and language models."
+    },
+    "experience": {
+      "title": "Experience",
+      "eyebrow": "04 · Experience",
+      "heading": "Experience",
+      "lede": "Graduate research at UC San Diego, preceded by three-plus years of production software engineering.",
+      "description": "Research and industry experience of Debmalya Pal: UC San Diego graduate research and software engineering at Cognizant."
+    },
+    "teaching": {
+      "title": "Teaching",
+      "eyebrow": "05 · Teaching",
+      "heading": "Teaching",
+      "lede": "Teaching assistantships at UC San Diego.",
+      "description": "Teaching assistant roles held by Debmalya Pal at UC San Diego."
+    },
+    "about": {
+      "title": "About",
+      "eyebrow": "06 · About",
+      "heading": "About",
+      "description": "About Debmalya Pal: background, education, skills, and languages."
+    },
+    "contact": {
+      "title": "Contact",
+      "eyebrow": "07 · Contact",
+      "heading": "Get in touch",
+      "description": "How to contact Debmalya Pal."
+    },
+    "notFound": {
+      "title": "Page not found",
+      "heading": "No signal at this address.",
+      "lede": "The page you asked for doesn't exist or has moved."
+    },
+    "blog": {
+      "title": "Writing",
+      "eyebrow": "Writing",
+      "heading": "Writing",
+      "lede": "Research notes and technical writing on language models, reasoning, and reliable AI systems.",
+      "description": "Research notes and technical writing by Debmalya Pal on language models, reasoning, and reliable AI systems."
+    }
+  },
+  "home": {
+    "researchHeading": "Four connected questions",
+    "featuredHeading": "Featured work",
+    "publicationsHeading": "Recent publications",
+    "experienceHeading": "Path so far",
+    "contactHeading": "Let's talk about reliable AI."
+  },
+  "labels": {
+    "skipLink": "Skip to content",
+    "menu": "Menu",
+    "themeToggle": "Toggle color theme",
+    "viewAllProjects": "All projects",
+    "viewAllPublications": "All publications",
+    "viewExperience": "Full timeline",
+    "readMore": "Read project",
+    "backToProjects": "All projects",
+    "present": "Present",
+    "featured": "Featured",
+    "archive": "More projects",
+    "highlights": "What I did",
+    "metrics": "Reported results",
+    "stack": "Stack",
+    "themes": "Themes",
+    "role": "Role",
+    "affiliation": "Affiliation",
+    "period": "Period",
+    "status": "Status",
+    "relatedPublications": "Related publications",
+    "relatedProjects": "Related projects",
+    "noResults": "Nothing matches these filters.",
+    "clearFilters": "Clear filters",
+    "search": "Search",
+    "all": "All",
+    "advisor": "Advisor",
+    "client": "Client",
+    "instructor": "Instructor",
+    "education": "Education",
+    "skills": "Skills",
+    "languages": "Languages",
+    "interests": "Research interests",
+    "coursework": "Selected coursework",
+    "email": "Email",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "scholar": "Google Scholar",
+    "orcid": "ORCID",
+    "cv": "CV",
+    "repo": "Code",
+    "demo": "Demo",
+    "paper": "Paper",
+    "pdf": "PDF",
+    "doi": "DOI",
+    "project": "Project page",
+    "type": "Type",
+    "searchProjectsHint": "e.g. probing, RAG, Kubernetes",
+    "searchPublicationsHint": "Title, venue, or year",
+    "results": "Matching projects",
+    "previousStage": "Previous stage",
+    "nextStage": "Next stage",
+    "stages": "Stages",
+    "outcomes": "Outcome categories",
+    "projects": "Projects",
+    "publications": "Publications",
+    "diagram": "How it works",
+    "notFoundHome": "Back to the homepage",
+    "better": "better",
+    "worse": "worse",
+    "sitemap": "Sitemap",
+    "elsewhere": "Elsewhere",
+    "partOf": "Part of",
+    "inFocus": "In focus",
+    "inFocusHeading": "Two questions in depth",
+    "keywords": "Keywords",
+    "exploreTheme": "Open in atlas",
+    "viewProject": "View project",
+    "location": "Location",
+    "gpa": "GPA",
+    "peerReviewed": "Peer-reviewed",
+    "previousProject": "Previous project",
+    "nextProject": "Next project",
+    "conceptualNote": "Conceptual diagram",
+    "researchThemes": "Themes in detail",
+    "roles": "Roles",
+    "onThisPage": "On this page",
+    "writeTo": "Write to",
+    "reachOut": "Profiles",
+    "atlasHeading": "Explore by theme",
+    "blogEmpty": "No articles have been published yet.",
+    "searchBlogHint": "Title, topic, or tag",
+    "topic": "Topic",
+    "readArticle": "Read article",
+    "minRead": "min read",
+    "published": "Published",
+    "updated": "Updated",
+    "backToWriting": "All writing",
+    "draftBanner": "Draft preview — visible only in the local dev server, never in a production build.",
+    "rssFeed": "RSS feed",
+    "tags": "Tags"
+  },
+  "enums": {
+    "kind": {
+      "research": "Research",
+      "engineering": "Engineering"
+    },
+    "status": {
+      "ongoing": "Ongoing",
+      "completed": "Completed"
+    },
+    "pubType": {
+      "conference": "Conference",
+      "workshop": "Workshop",
+      "journal": "Journal",
+      "preprint": "Preprint"
+    },
+    "experienceKind": {
+      "research": "Research",
+      "industry": "Industry"
+    }
+  },
+  "rss": {
+    "title": "Debmalya Pal — Writing",
+    "description": "Research notes and technical writing on language models, reasoning, and reliable AI systems."
+  }
+}

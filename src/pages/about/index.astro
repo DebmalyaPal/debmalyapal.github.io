@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import EducationRow from '@/components/EducationRow.astro';
+import Tag from '@/components/Tag';
+import { content } from '@/lib/data';
+import { url } from '@/lib/slug';
+
+const { site, profile, education, skills } = content;
+const { labels, pages } = site;
+const page = pages.about;
+const headshot = profile.headshot ? url(profile.headshot) : null;
+const [lead, ...rest] = profile.bio;
+---
+
+<BaseLayout title={page.title} description={page.description} type="profile">
+  <PageHeader eyebrow={page.eyebrow} heading={page.heading ?? page.title} />
+
+  <section aria-label={page.heading} class="container-wide grid gap-12 py-14 md:py-20 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-20">
+    <div class="max-w-3xl">
+      <p class="font-display text-[clamp(1.5rem,1.15rem+1.2vw,2.2rem)] leading-[1.25] text-ink">{lead}</p>
+      <div class="prose-signal mt-8 text-[1.06rem] leading-[1.75] text-muted">
+        {rest.map((p) => <p>{p}</p>)}
+      </div>
+      {profile.collaborationNote && <p class="mt-8 border-l-2 border-signal pl-5 text-ink">{profile.collaborationNote}</p>}
+    </div>
+    <aside class="grid content-start gap-10">
+      {headshot && <img src={headshot} alt={profile.name} width="320" height="400" class="w-full rounded-xl border border-line object-cover" />}
+      <div>
+        <h2 class="eyebrow mb-4">{labels.interests}</h2>
+        <ul class="grid gap-2.5 text-sm text-ink">
+          {
+            profile.researchInterests.map((r) => (
+              <li class="flex gap-3">
+                <span class="mt-2 size-1 shrink-0 rounded-full bg-signal" aria-hidden="true" />
+                {r}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      {
+        profile.languages.length > 0 && (
+          <div>
+            <h2 class="eyebrow mb-4">{labels.languages}</h2>
+            <dl class="grid gap-2 text-sm">
+              {profile.languages.map((l) => (
+                <div class="flex justify-between gap-4 border-t border-line pt-2">
+                  <dt class="text-ink">{l.name}</dt>
+                  <dd class="text-right text-muted">{l.level}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )
+      }
+    </aside>
+  </section>
+
+  <section aria-labelledby="education-heading" class="border-t border-line py-14 md:py-20">
+    <div class="container-wide">
+      <h2 id="education-heading" class="mb-8 text-title font-medium tracking-tight text-ink">{labels.education}</h2>
+      {education.map((e) => <EducationRow item={e} />)}
+    </div>
+  </section>
+
+  <section aria-labelledby="skills-heading" class="border-t border-line py-14 md:py-20">
+    <div class="container-wide">
+      <h2 id="skills-heading" class="mb-8 text-title font-medium tracking-tight text-ink">{labels.skills}</h2>
+      <div class="grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2">
+        {
+          skills.map((g) => (
+            <div class="bg-bg p-6">
+              <h3 class="text-ink">{g.group}</h3>
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {g.items.map((s) => (
+                  <li>
+                    <Tag>{s}</Tag>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

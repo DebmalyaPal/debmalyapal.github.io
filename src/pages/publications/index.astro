@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import PublicationSearch from '@/islands/PublicationSearch';
+import { content } from '@/lib/data';
+import { themeNames } from '@/lib/atlas';
+import { scholarlyArticleJsonLd } from '@/lib/jsonld';
+
+const { site, research, publications } = content;
+const { labels, enums, pages } = site;
+const page = pages.publications;
+// Emitted only for entries whose author list is known (see jsonld.ts).
+const jsonLd = publications.map(scholarlyArticleJsonLd).filter((x): x is Record<string, unknown> => x !== null);
+---
+
+<BaseLayout title={page.title} description={page.description} jsonLd={jsonLd}>
+  <PageHeader eyebrow={page.eyebrow} heading={page.heading ?? page.title} lede={page.lede} />
+  <div class="container-wide py-12 md:py-16">
+    <PublicationSearch
+      client:idle
+      publications={publications}
+      themes={research.themes.map((t) => ({ id: t.id, short: t.short }))}
+      labels={labels}
+      enums={enums}
+      themeNames={themeNames(content)}
+    />
+  </div>
+</BaseLayout>

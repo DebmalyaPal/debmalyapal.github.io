@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LinkButton from '@/components/LinkButton';
+import { content } from '@/lib/data';
+import { url } from '@/lib/slug';
+
+const { site } = content;
+const page = site.pages.notFound;
+---
+
+<BaseLayout title={page.title} noindex>
+  <section class="relative isolate overflow-hidden">
+    <div class="signal-backdrop absolute inset-0 -z-10" aria-hidden="true"></div>
+    <div class="hairline-grid absolute inset-0 -z-10 opacity-40 [mask-image:radial-gradient(closest-side,black,transparent)]" aria-hidden="true"></div>
+    <div class="container-wide flex min-h-[60svh] flex-col justify-center py-24">
+      <p class="font-mono text-sm text-signal">404</p>
+      <h1 class="mt-4 max-w-3xl text-title font-medium tracking-tight text-ink">{page.heading}</h1>
+      {page.lede && <p class="mt-5 max-w-xl text-lg text-muted">{page.lede}</p>}
+      <div class="mt-10">
+        <LinkButton href={url()} label={site.labels.notFoundHome} variant="primary" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

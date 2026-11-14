@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectDetail from '@/components/ProjectDetail.astro';
+import type { Project } from '@/lib/schema';
+import { content } from '@/lib/data';
+
+/** One static page per entry in projects.json — adding a project there adds its route. */
+export const getStaticPaths = (() => content.projects.map((project) => ({ params: { slug: project.slug }, props: { project } }))) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout title={project.shortTitle} description={project.summary} type="article">
+  <ProjectDetail project={project} />
+</BaseLayout>

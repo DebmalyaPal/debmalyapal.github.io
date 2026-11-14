@@ -1,0 +1,144 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import 'katex/dist/katex.min.css';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Tag from '@/components/Tag';
+import { content } from '@/lib/data';
+import { getRoutablePosts, type BlogPost } from '@/lib/blog-content';
+import { coverImage } from '@/lib/blog-images';
+import { formatDate } from '@/lib/format';
+import { blogPostingJsonLd } from '@/lib/jsonld';
+import { url } from '@/lib/slug';
+
+// Production builds only generate published posts (drafts are not even loaded; see content.config.ts).
+export async function getStaticPaths() {
+  return (await getRoutablePosts()).map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const { site, profile } = content;
+const { labels } = site;
+const { Content, headings } = await render(post.entry);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const cover = coverImage(post);
+// Never upscale: offer standard widths up to the source width (or just the source width if it is small).
+const coverWidths = cover ? [640, 960, 1280, 1920].filter((w) => w <= cover.width) : [];
+if (cover && coverWidths.length === 0) coverWidths.push(cover.width);
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = post.status === 'published' ? [blogPostingJsonLd(post, profile, pageUrl, new URL(url(), Astro.site).href)] : [];
+---
+
+<BaseLayout
+  title={post.title}
+  description={post.summary}
+  type="article"
+  jsonLd={jsonLd}
+  noindex={post.status !== 'published'}
+  {...post.publishedAt ? { article: { publishedTime: post.publishedAt, modifiedTime: post.updatedAt, tags: post.tags } } : {}}
+>
+  <article>
+    <header class="relative overflow-hidden border-b border-line">
+      <div class="hairline-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden="true"></div>
+      <div class="container-wide relative pt-10 pb-12 md:pt-14 md:pb-16">
+        <nav aria-label="Breadcrumb">
+          <a href={url('blog/')} class="inline-flex items-center gap-2 font-mono text-xs tracking-wide text-muted uppercase hover:text-ink">
+            <span aria-hidden="true">←</span>
+            {labels.backToWriting}
+          </a>
+        </nav>
+        {
+          post.status === 'draft' && (
+            <p class="mt-8 rounded-lg border border-pulse/50 bg-pulse-soft px-4 py-3 text-sm text-ink" role="note">
+              {labels.draftBanner}
+            </p>
+          )
+        }
+        {/* Each separator is glued to the item after it, so a wrapped line never ends in "/". */}
+        <p class="eyebrow mt-10 flex flex-wrap gap-x-3 gap-y-1">
+          <span class="text-signal">{post.topic}</span>
+          {post.publishedAt && (
+            <span class="whitespace-nowrap">
+              <span aria-hidden="true" class="mr-3">/</span>
+              <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+            </span>
+          )}
+          <span class="whitespace-nowrap">
+            <span aria-hidden="true" class="mr-3">/</span>
+            {post.readingMinutes} {labels.minRead}
+          </span>
+        </p>
+        <h1 class="mt-4 max-w-4xl text-title font-medium tracking-tight text-ink">{post.title}</h1>
+        <p class="mt-5 max-w-3xl font-display text-xl leading-snug text-muted italic md:text-2xl">{post.summary}</p>
+        {
+          post.updatedAt && (
+            <p class="mt-4 font-mono text-xs text-faint">
+              {labels.updated} <time datetime={post.updatedAt}>{formatDate(post.updatedAt)}</time>
+            </p>
+          )
+        }
+        {
+          post.tags.length > 0 && (
+            <ul class="mt-6 flex flex-wrap gap-2" aria-label={labels.tags}>
+              {post.tags.map((t) => (
+                <li>
+                  <Tag>{t}</Tag>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="container-wide py-12 md:py-16">
+      {
+        cover && (
+          <Image
+            src={cover}
+            alt={post.coverAlt ?? ''}
+            widths={coverWidths}
+            sizes="(min-width: 1320px) 1224px, 100vw"
+            class="mb-12 aspect-[16/8] w-full rounded-xl border border-line object-cover"
+            loading="eager"
+            fetchpriority="high"
+          />
+        )
+      }
+      {/* The text column is sized to the prose measure so the TOC sits beside the text, not at the page edge. */}
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,44rem)_15rem] lg:gap-16">
+        {
+          toc.length > 0 && (
+            <nav aria-labelledby="toc-heading" class="rounded-xl border border-line p-5 lg:sticky lg:top-24 lg:order-2 lg:self-start lg:border-0 lg:p-0">
+              <h2 id="toc-heading" class="eyebrow mb-3">
+                {labels.onThisPage}
+              </h2>
+              <ol class="grid gap-2 text-sm">
+                {toc.map((h) => (
+                  <li class:list={[h.depth === 3 && 'pl-4']}>
+                    <a href={`#${h.slug}`} class="text-muted hover:text-ink">
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+        <div class="prose-article min-w-0 lg:order-1">
+          <Content />
+        </div>
+      </div>
+      <footer class="mt-16 border-t border-line pt-6">
+        <a href={url('blog/')} class="inline-flex items-center gap-2 text-sm text-muted hover:text-ink">
+          <span aria-hidden="true">←</span>
+          {labels.backToWriting}
+        </a>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,45 @@
+{
+  "name": "Debmalya Pal",
+  "givenName": "Debmalya",
+  "familyName": "Pal",
+  "position": "Graduate Student Researcher",
+  "institution": "University of California, San Diego",
+  "institutionShort": "UC San Diego",
+  "department": "Department of Computer Science and Engineering",
+  "location": "San Diego, California",
+  "headline": "Trustworthy AI · Human-Centered AI · Language Models · Multi-Agent Systems",
+  "positioning": "I study how language models and multi-agent systems reason, fail, and can be made more reliable — and I build the systems that put that understanding to work.",
+  "intro": "M.S. Computer Science (Artificial Intelligence) student at UC San Diego, working on interpretability, LLM reasoning, and agentic decision-support — after more than three years as a production software engineer.",
+  "bio": [
+    "I'm a Master of Science in Computer Science student at UC San Diego, working on trustworthy AI, AI safety, and interpretability — bridging that with over three years of production software engineering before graduate school.",
+    "My primary focus is on making AI systems transparent and reliable at the representational level: probing and steering internal model behavior, understanding failure modes, and building interpretability tools that hold up under real-world constraints.",
+    "Alongside, I work on AI agents and multi-agent systems, focusing on grounding them in trustworthy AI principles so that multi-agent behavior more closely resembles how humans actually deliberate and operate.",
+    "Before joining UCSD in Fall 2025, I spent over three years as a full-stack software engineer, working across backend systems, databases, automated data pipelines, and cloud-native development. I bring that same engineering discipline to research prototypes and production systems alike: grounded, scalable, and well-structured."
+  ],
+  "collaborationNote": "I am open to collaborations that push trustworthy AI forward — making systems more accessible, inclusive, and genuinely helpful.",
+  "researchInterests": [
+    "Trustworthy AI",
+    "Human-Centered AI",
+    "Language model behavior, reliability, and interpretability",
+    "LLM reasoning and adaptive computation",
+    "Multi-agent systems",
+    "Human–AI decision-making",
+    "Natural language processing"
+  ],
+  "contact": {
+    "email": "d2pal@ucsd.edu",
+    "github": "https://github.com/DebmalyaPal",
+    "githubHandle": "DebmalyaPal",
+    "linkedin": "https://www.linkedin.com/in/debmalya-pal",
+    "linkedinHandle": "debmalya-pal",
+    "scholar": null,
+    "orcid": null,
+    "cv": null
+  },
+  "languages": [
+    { "name": "English", "level": "Full professional" },
+    { "name": "Bengali", "level": "Native or bilingual" },
+    { "name": "Hindi", "level": "Limited working" }
+  ],
+  "headshot": null
+}

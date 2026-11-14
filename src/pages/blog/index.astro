@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import BlogSearch from '@/islands/BlogSearch';
+import type { BlogCardData } from '@/components/blog/BlogCard';
+import { content } from '@/lib/data';
+import { getRoutablePosts } from '@/lib/blog-content';
+import { coverCardUrl } from '@/lib/blog-images';
+
+const { site } = content;
+const { labels, pages } = site;
+const page = pages.blog;
+
+// In a production build this is published posts only; `astro dev` also lists drafts, marked as such.
+const posts: BlogCardData[] = await Promise.all(
+  (await getRoutablePosts()).map(async (p) => ({
+  slug: p.slug,
+  title: p.title,
+  topic: p.topic,
+  tags: p.tags,
+  summary: p.summary,
+  publishedAt: p.publishedAt,
+  status: p.status,
+  coverAlt: p.coverAlt,
+  readingMinutes: p.readingMinutes,
+  coverUrl: await coverCardUrl(p),
+  })),
+);
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <PageHeader eyebrow={page.eyebrow} heading={page.heading ?? page.title} lede={page.lede} />
+  <div class="container-wide py-12 md:py-16">
+    {
+      posts.length > 0 ? (
+        <BlogSearch client:idle posts={posts} labels={labels} />
+      ) : (
+        <p class="rounded-xl border border-dashed border-line-strong p-10 text-center text-muted" data-blog-empty>
+          {labels.blogEmpty}
+        </p>
+      )
+    }
+  </div>
+</BaseLayout>

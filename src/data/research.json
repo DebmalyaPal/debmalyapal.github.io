@@ -1,0 +1,37 @@
+{
+  "intro": "Four connected questions run through my work: what a model represents internally, when its reasoning can be trusted, how agents should coordinate and plan, and how these systems can support people making real decisions.",
+  "themes": [
+    {
+      "id": "interpretability",
+      "title": "Interpretability & Representations",
+      "short": "Interpretability",
+      "question": "What do language models encode internally — and can we read or steer it?",
+      "summary": "Linear probing, activation steering, and intervention-based analysis of internal representations, including epistemic uncertainty and negation in biomedical language models.",
+      "keywords": ["linear probing", "activation steering", "hidden states", "TransformerLens"]
+    },
+    {
+      "id": "reasoning",
+      "title": "LLM Reasoning & Adaptive Computation",
+      "short": "Reasoning",
+      "question": "When does extra computation, such as self-reflection, actually help a model reason?",
+      "summary": "Counterfactual evaluation of reasoning trajectories and learned signals for deciding when a model should reflect.",
+      "keywords": ["self-reflection", "reasoning trajectories", "MATH", "adaptive policies"]
+    },
+    {
+      "id": "agents",
+      "title": "Agentic & Multi-Agent Systems",
+      "short": "Multi-agent",
+      "question": "How should agents plan, coordinate, and stay safe under uncertainty and failure?",
+      "summary": "Planner-driven orchestration, dependency-aware execution, constrained control for autonomous agents, and resilient coordination under degraded communication.",
+      "keywords": ["orchestration", "DAG planning", "tool use", "fault tolerance"]
+    },
+    {
+      "id": "trustworthy",
+      "title": "Trustworthy & Human-Centered AI",
+      "short": "Trustworthy AI",
+      "question": "How do we make AI systems reliable, grounded, and fair to the people relying on them?",
+      "summary": "Reliability and safety evaluation, source-grounded evidence retrieval, privacy-preserving language modeling, and studying bias in multi-agent synthesis of stakeholder perspectives.",
+      "keywords": ["reliability", "grounding", "privacy", "human–AI decision-making"]
+    }
+  ]
+}

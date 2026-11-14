@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import ResearchCard from '@/components/ResearchCard.astro';
+import ProjectDiagram from '@/components/ProjectDiagram.astro';
+import ResearchAtlas from '@/islands/ResearchAtlas';
+import { content } from '@/lib/data';
+import { atlasProps } from '@/lib/atlas';
+import { projectUrl } from '@/lib/slug';
+
+const { site, research, projects } = content;
+const { labels, pages } = site;
+const page = pages.research;
+// Projects that declare a conceptual diagram get an in-depth panel, in project order.
+const inFocus = projects.filter((p) => p.diagram);
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <PageHeader eyebrow={page.eyebrow} heading={page.heading ?? page.title} lede={research.intro}>
+    <nav aria-label={labels.onThisPage} class="mt-8">
+      <ul class="flex flex-wrap gap-2">
+        {
+          research.themes.map((t) => (
+            <li>
+              <a
+                href={`#theme-${t.id}`}
+                class="inline-flex min-h-9 items-center rounded-full border border-line px-3.5 text-sm text-muted hover:border-line-strong hover:text-ink"
+              >
+                {t.short}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </PageHeader>
+
+  <section id="atlas" aria-labelledby="atlas-heading" class="scroll-mt-20 border-b border-line py-16 md:py-20">
+    <div class="container-wide">
+      <h2 id="atlas-heading" class="eyebrow mb-8">{labels.atlasHeading}</h2>
+      <ResearchAtlas client:visible syncUrl {...atlasProps(content)} />
+    </div>
+  </section>
+
+  {
+    inFocus.length > 0 && (
+      <section aria-labelledby="focus-heading" class="border-b border-line py-16 md:py-24">
+        <div class="container-wide">
+          <p class="eyebrow mb-4">{labels.inFocus}</p>
+          <h2 id="focus-heading" class="text-title font-medium tracking-tight text-ink">
+            {labels.inFocusHeading}
+          </h2>
+          <div class="mt-12 grid gap-20">
+            {inFocus.map((p) => (
+              <article aria-labelledby={`focus-${p.slug}`} class="grid gap-8 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-12">
+                <div>
+                  <h3 id={`focus-${p.slug}`} class="text-3xl font-medium tracking-tight text-ink">
+                    {p.shortTitle}
+                  </h3>
+                  <p class="mt-3 font-display text-xl leading-snug text-muted italic">{p.summary}</p>
+                  {p.metrics.length > 0 && (
+                    <ul class="mt-6 grid gap-4">
+                      {p.metrics.map((m) => (
+                        <li class="border-t border-line pt-3">
+                          <p class="font-display text-3xl leading-none text-signal tabular-nums">{m.value}</p>
+                          <p class="mt-1.5 text-sm text-ink">{m.label}</p>
+                          {m.context && <p class="mt-1 text-xs leading-relaxed text-faint">{m.context}</p>}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <a href={projectUrl(p.slug)} class="mt-6 inline-flex items-center gap-2 text-sm text-ink hover:text-signal">
+                    {labels.readMore} <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+                <div class="min-w-0">
+                  <ProjectDiagram diagram={p.diagram} />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section aria-labelledby="themes-heading" class="py-16 md:py-24">
+    <div class="container-wide">
+      <h2 id="themes-heading" class="eyebrow mb-6">{labels.researchThemes}</h2>
+      {research.themes.map((t, i) => <ResearchCard theme={t} index={i} />)}
+    </div>
+  </section>
+</BaseLayout>

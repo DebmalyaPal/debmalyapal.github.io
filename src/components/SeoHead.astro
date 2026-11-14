@@ -1,0 +1,50 @@
+---
+import { content } from '@/lib/data';
+import { url } from '@/lib/slug';
+
+interface Props {
+  /** Page title without the site suffix. Omit on the home page. */
+  title?: string;
+  description?: string;
+  /** Extra JSON-LD objects. Only pass objects built from factual JSON data. */
+  jsonLd?: Record<string, unknown>[];
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  /** Open Graph article metadata for blog posts (dates are YYYY-MM-DD). */
+  article?: { publishedTime: string; modifiedTime?: string | null; tags?: string[] };
+}
+
+const { title, description, jsonLd = [], type = 'website', noindex = false, article } = Astro.props;
+const { site } = content;
+const fullTitle = title ? site.titleTemplate.replace('%s', title) : site.title;
+const desc = description ?? site.description;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={desc} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.title} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={desc} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={site.locale} />
+{
+  article && (
+    <>
+      <meta property="article:published_time" content={article.publishedTime} />
+      {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+      {article.tags?.map((t) => <meta property="article:tag" content={t} />)}
+    </>
+  )
+}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={desc} />
+
+<link rel="alternate" type="application/rss+xml" title={site.rss.title} href={url('rss.xml')} />
+
+{jsonLd.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}

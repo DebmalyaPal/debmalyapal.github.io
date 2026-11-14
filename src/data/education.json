@@ -1,0 +1,26 @@
+[
+  {
+    "id": "ucsd-ms",
+    "institution": "University of California, San Diego",
+    "unit": "Jacobs School of Engineering",
+    "degree": "M.S. Computer Science",
+    "specialization": "Artificial Intelligence",
+    "location": "San Diego, CA",
+    "start": "2025-09",
+    "end": "2027-06",
+    "gpa": "3.8 / 4.0",
+    "coursework": ["AI Agents", "Systems for LLMs & AI Agents", "Statistical NLP", "Data-Centric AI", "Trustworthy ML", "Human-AI Interaction"]
+  },
+  {
+    "id": "uem-btech",
+    "institution": "University of Engineering and Management, Kolkata",
+    "unit": null,
+    "degree": "B.Tech. Computer Science and Engineering",
+    "specialization": null,
+    "location": "Kolkata, India",
+    "start": "2018-07",
+    "end": "2022-06",
+    "gpa": "4.0 / 4.0",
+    "coursework": []
+  }
+]

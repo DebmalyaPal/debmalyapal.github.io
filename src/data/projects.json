@@ -1,0 +1,203 @@
+[
+  {
+    "slug": "when2reflect",
+    "title": "When2Reflect: Predicting Utility of Reflection in Language Models",
+    "shortTitle": "When2Reflect",
+    "kind": "research",
+    "status": "ongoing",
+    "featured": true,
+    "start": "2026-08",
+    "end": null,
+    "affiliation": "Independent research",
+    "role": "Researcher",
+    "summary": "Can a model's internal representations predict whether self-reflection will improve, harm, or leave unchanged the outcome of a reasoning trajectory?",
+    "description": [
+      "Research project investigating whether internal model representations can predict when self-reflection will improve, harm, or leave unchanged the outcome of an LLM reasoning trajectory.",
+      "The framework compares direct reasoning and reflection-induced continuations that start from identical intermediate reasoning states, so the effect of reflection can be measured counterfactually rather than across different problems."
+    ],
+    "highlights": [
+      "Developed a counterfactual framework that compares direct reasoning and reflection-induced continuations from identical intermediate reasoning states.",
+      "Built an evaluation pipeline over 100 MATH problems, 376 intermediate reasoning states, and 4,512 model rollouts.",
+      "Trained hidden-state probes for predicting reflection utility and compared their performance with uncertainty- and confidence-based triggering signals.",
+      "Improved reflection-utility prediction from 0.07 to 0.37 Spearman correlation relative to uncertainty-based baselines.",
+      "Investigating where reflection utility emerges across transformer layers and how learned signals can support adaptive reflection policies."
+    ],
+    "metrics": [
+      { "value": "0.07 → 0.37", "label": "Spearman correlation", "context": "Reflection-utility prediction: hidden-state probes vs. uncertainty-based baselines (reported in CV)." },
+      { "value": "4,512", "label": "model rollouts", "context": "Across 100 MATH problems and 376 intermediate reasoning states." }
+    ],
+    "stack": ["PyTorch", "Transformers", "Python"],
+    "themes": ["reasoning", "interpretability"],
+    "diagram": "reflection-paths",
+    "links": { "repo": null, "demo": null, "paper": null, "project": null }
+  },
+  {
+    "slug": "claro",
+    "title": "CLARO: Multi-Agent Deliberation for Civic & Policy Decision-Making",
+    "shortTitle": "CLARO",
+    "kind": "research",
+    "status": "ongoing",
+    "featured": true,
+    "start": "2026-04",
+    "end": null,
+    "affiliation": "UC San Diego · advised by Dr. Nadir Weibel",
+    "role": "Lead engineer",
+    "summary": "A multimodal agentic decision-support system for civic policy analysis that decomposes each query into a dependency-aware execution DAG of specialized capabilities.",
+    "description": [
+      "CLARO is a multimodal agentic decision-support system for civic policy analysis. It dynamically decomposes user queries into dependency-aware execution DAGs spanning specialized reasoning, retrieval, analysis, and stakeholder-analysis capabilities.",
+      "Completed analytical results stream to the interface as they finish, while conversational synthesis and speech generation proceed asynchronously."
+    ],
+    "highlights": [
+      "Architected a planner-driven orchestration layer with 7+ registered capabilities, dynamically activating required agents and tools per query.",
+      "Executes independent tasks concurrently with bounded parallelism, dependency scheduling, timeouts, and failure isolation.",
+      "Integrated LLM tool use and RAG-based structured evidence retrieval so agents return typed, source-grounded analytical results.",
+      "Built contextual data pipelines incorporating location-specific demographic, policy, and spatial information, with dynamic generation of plots from structured outputs.",
+      "Designed a progressive WebSocket-based interaction architecture that reduces perceived response latency.",
+      "Benchmarked on historical civic-deliberation records, achieving ~75% stakeholder-conflict coverage.",
+      "Developing StakeBench and SchemeBench, argument-mining-based frameworks for studying whether multi-agent synthesis disproportionately preserves, amplifies, or suppresses particular stakeholder perspectives."
+    ],
+    "metrics": [
+      { "value": "~75%", "label": "stakeholder-conflict coverage", "context": "Benchmarked on historical civic-deliberation records (reported in CV)." },
+      { "value": "7+", "label": "registered capabilities", "context": "Activated per query by the planner." }
+    ],
+    "stack": ["Python", "LLM tool use", "RAG", "WebSockets"],
+    "themes": ["agents", "trustworthy"],
+    "diagram": "claro-dag",
+    "links": { "repo": null, "demo": null, "paper": null, "project": "https://hxi.ucsd.edu/project/claro/" }
+  },
+  {
+    "slug": "algorithmic-safety-layer",
+    "title": "Algorithmic Safety Layer for Autonomous LLM Agents",
+    "shortTitle": "Agent Safety Layer",
+    "kind": "research",
+    "status": "completed",
+    "featured": true,
+    "start": "2026-01",
+    "end": "2026-03",
+    "affiliation": null,
+    "role": null,
+    "summary": "A safety framework that applies Model Predictive Control and convex optimization to keep LLM-driven agents' state transitions within constraints.",
+    "description": [
+      "Designed and implemented a safety framework for LLM-driven autonomous agents, applying Model Predictive Control (MPC) and convex optimization to guarantee safe state transitions during dynamic environment interactions."
+    ],
+    "highlights": [
+      "Applied Model Predictive Control and convex optimization to constrain agent state transitions.",
+      "Achieved a ~55% reduction in constraint violations over unconstrained baselines without compromising task accomplishment."
+    ],
+    "metrics": [
+      { "value": "~55%", "label": "fewer constraint violations", "context": "Versus unconstrained baselines (reported in CV)." }
+    ],
+    "stack": ["Python", "Convex optimization", "LLMs"],
+    "themes": ["agents", "trustworthy"],
+    "diagram": null,
+    "links": { "repo": null, "demo": null, "paper": null, "project": null }
+  },
+  {
+    "slug": "resilient-multi-agent-systems",
+    "title": "Resilient Multi-Agent Systems for High-Risk Environments",
+    "shortTitle": "Resilient MAS",
+    "kind": "research",
+    "status": "completed",
+    "featured": false,
+    "start": "2026-02",
+    "end": "2026-04",
+    "affiliation": null,
+    "role": null,
+    "summary": "Hierarchical dynamic-leadership coordination for 15+ agents in simulated wildfire rescue, tested under packet loss and communication lapses.",
+    "description": [
+      "Implemented two hierarchical dynamic-leadership algorithms to improve coordination and fault tolerance in a multi-agent system of 15+ agents operating in simulated wildfire rescue environments."
+    ],
+    "highlights": [
+      "Implemented 2 hierarchical dynamic-leadership algorithms for coordination and fault tolerance.",
+      "Validated resilience by introducing real-time packet loss and simulated communication lapses, forcing agents to rely on adaptive planning and autonomous task decomposition.",
+      "Improved plan adaptation (+15%) and spatial reasoning (+25%) over static coordination baselines under degraded communication."
+    ],
+    "metrics": [
+      { "value": "+15%", "label": "plan adaptation", "context": "Versus static coordination baselines under degraded communication (reported in CV)." },
+      { "value": "+25%", "label": "spatial reasoning", "context": "Same setting." }
+    ],
+    "stack": ["Python", "Multi-agent systems", "LLMs"],
+    "themes": ["agents"],
+    "diagram": null,
+    "links": { "repo": null, "demo": null, "paper": null, "project": null }
+  },
+  {
+    "slug": "hybrid-rag-genomics",
+    "title": "Hybrid RAG System for Genomics",
+    "shortTitle": "Genomics RAG",
+    "kind": "research",
+    "status": "ongoing",
+    "featured": false,
+    "start": "2026-10",
+    "end": null,
+    "affiliation": null,
+    "role": null,
+    "summary": "A two-stage retrieval pipeline for genomic research text: hybrid BM25 + dense search followed by cross-encoder re-ranking.",
+    "description": [
+      "A specialized retrieval-augmented generation pipeline for genomic research data, orchestrating ensemble embedding models and context-aware chunking to capture diverse semantic nuances in biological text."
+    ],
+    "highlights": [
+      "Ensemble embedding models with context-aware chunking for biological text.",
+      "Two-stage retrieval: hybrid BM25 + dense search, then cross-encoder re-ranking.",
+      "~25% improvement in retrieval recall over single-stage dense retrieval on complex biomedical queries."
+    ],
+    "metrics": [
+      { "value": "~25%", "label": "higher retrieval recall", "context": "Versus single-stage dense retrieval on complex biomedical queries (reported in CV)." }
+    ],
+    "stack": ["Python", "Qdrant", "Docker"],
+    "themes": ["trustworthy"],
+    "diagram": null,
+    "links": { "repo": null, "demo": null, "paper": null, "project": null }
+  },
+  {
+    "slug": "medipredict",
+    "title": "MediPredict: ML-Powered Disease Prediction System",
+    "shortTitle": "MediPredict",
+    "kind": "engineering",
+    "status": "completed",
+    "featured": false,
+    "start": "2022-02",
+    "end": "2022-05",
+    "affiliation": null,
+    "role": null,
+    "summary": "A disease prediction system built on a weighted ensemble of classifiers, with an end-to-end pipeline from preprocessing to an interactive frontend.",
+    "description": [
+      "A disease prediction system using a weighted ensemble of classification models to improve robustness across symptoms."
+    ],
+    "highlights": [
+      "Weighted ensemble of classification models for robustness across symptoms.",
+      "End-to-end pipeline: preprocessing, model inference, REST APIs, and an interactive frontend for real-time predictions."
+    ],
+    "metrics": [],
+    "stack": ["Python", "Machine learning", "Flask", "React"],
+    "themes": [],
+    "diagram": null,
+    "links": { "repo": null, "demo": null, "paper": null, "project": null }
+  },
+  {
+    "slug": "covvaxpulse",
+    "title": "CovVaxPulse: Sentiment Analysis of the COVID-19 Vaccination Drive",
+    "shortTitle": "CovVaxPulse",
+    "kind": "engineering",
+    "status": "completed",
+    "featured": false,
+    "start": "2021-07",
+    "end": "2021-11",
+    "affiliation": null,
+    "role": null,
+    "summary": "Ingestion and multilingual NLP pipeline tracking temporal trends in public opinion on COVID-19 vaccination from social media.",
+    "description": [
+      "Collected localised vaccination-related data from social media and applied NLP-based sentiment analysis to track temporal trends in public opinion toward COVID-19 vaccination."
+    ],
+    "highlights": [
+      "Ingestion pipeline collecting localised vaccination-related posts from X and Reddit, with scheduled jobs and API integrations.",
+      "Scalable preprocessing for noisy social media text: language detection, normalization, and multilingual embeddings in a shared semantic space.",
+      "Sentiment analysis tracking temporal trends in public opinion."
+    ],
+    "metrics": [],
+    "stack": ["Python", "NLP", "AWS"],
+    "themes": [],
+    "diagram": null,
+    "links": { "repo": null, "demo": null, "paper": null, "project": null }
+  }
+]

@@ -1,0 +1,358 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter-tight/wght.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+
+/* Theme switching is attribute-driven (set by the inline head script), not media-query driven. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ------------------------------------------------------------------
+   SIGNAL / SYSTEMS tokens. Dark ("midnight") is the default theme.
+   ------------------------------------------------------------------ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #070a12;
+  --bg-raised: #0c111c;
+  --bg-sunken: #05070d;
+  --line: rgb(190 205 235 / 0.1);
+  --line-strong: rgb(190 205 235 / 0.22);
+  --text: #eceff5;
+  --text-muted: #a3adbf;
+  --text-faint: #7d889c;
+  --signal: #6ee7c8; /* mint-teal */
+  --signal-soft: rgb(110 231 200 / 0.14);
+  --pulse: #b59cff; /* violet */
+  --pulse-soft: rgb(181 156 255 / 0.14);
+  --warn: #f5c47a;
+  --focus: #6ee7c8;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f4ef;
+  --bg-raised: #ffffff;
+  --bg-sunken: #ecebe4;
+  --line: rgb(15 23 42 / 0.1);
+  --line-strong: rgb(15 23 42 / 0.22);
+  --text: #0b1120;
+  --text-muted: #3f4a5e;
+  --text-faint: #5b6577;
+  --signal: #0b7a64;
+  --signal-soft: rgb(11 122 100 / 0.1);
+  --pulse: #6a3fd6;
+  --pulse-soft: rgb(106 63 214 / 0.1);
+  --warn: #9a5b00;
+  --focus: #0b7a64;
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-sunken: var(--bg-sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+  --color-pulse: var(--pulse);
+  --color-pulse-soft: var(--pulse-soft);
+
+  --font-sans: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display: clamp(3rem, 1.6rem + 6.4vw, 7.5rem);
+  --text-display--line-height: 0.92;
+  --text-title: clamp(2.1rem, 1.5rem + 2.6vw, 3.75rem);
+  --text-title--line-height: 1.02;
+
+  --ease-signal: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--text);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply font-sans antialiased;
+    background: var(--bg);
+    min-height: 100dvh;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--signal);
+    color: var(--bg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Motion: on by default; the OS reduced-motion setting (mirrored to data-motion) turns it off. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) {
+    scroll-behavior: smooth;
+  }
+}
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@layer components {
+  .container-wide {
+    @apply mx-auto w-full max-w-[1320px] px-4 sm:px-8 lg:px-12;
+  }
+  .eyebrow {
+    @apply font-mono text-[0.72rem] tracking-[0.16em] text-faint uppercase;
+  }
+  .hairline-grid {
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .prose-signal p + p {
+    @apply mt-4;
+  }
+  .link-underline {
+    @apply underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-signal hover:text-ink;
+  }
+  .tick-list > li {
+    @apply relative pl-5;
+  }
+  .tick-list > li::before {
+    content: '';
+    @apply absolute top-[0.7em] left-0 h-px w-2.5 bg-signal;
+  }
+}
+
+/* Static hero backdrop: also the fallback when canvas is unavailable or motion is off. */
+.signal-backdrop {
+  background:
+    radial-gradient(60% 55% at 78% 30%, var(--pulse-soft), transparent 70%),
+    radial-gradient(50% 50% at 18% 75%, var(--signal-soft), transparent 70%);
+  background-size: 130% 130%;
+  background-position: 50% 50%;
+  animation: backdrop-drift 26s ease-in-out infinite alternate;
+}
+
+/* Slow, fluid drift of the two light pools. The reduced-motion rule above freezes it. */
+@keyframes backdrop-drift {
+  0% {
+    background-position: 30% 40%;
+  }
+  50% {
+    background-position: 65% 55%;
+  }
+  100% {
+    background-position: 45% 70%;
+  }
+}
+
+/* Theme toggle shows the icon of the current theme. */
+:root[data-theme='light'] .theme-icon-dark,
+:root:not([data-theme='light']) .theme-icon-light {
+  display: none;
+}
+
+/* Data flowing along the active edges of the CLARO diagram. Disabled by the reduced-motion rule above. */
+@keyframes dag-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.dag-flow {
+  animation: dag-flow 1.1s linear infinite;
+}
+
+/*
+ * Diagram state changes (highlight, stage, outcome) ease with plain CSS transitions.
+ * `d`, `r` and `cy` animate in browsers that support them as CSS properties and snap
+ * elsewhere. The reduced-motion rule above collapses all of these to instant.
+ */
+.svg-ease {
+  transition:
+    opacity 0.45s var(--ease-signal),
+    transform 0.6s var(--ease-signal),
+    d 0.6s var(--ease-signal),
+    r 0.45s var(--ease-signal),
+    cy 0.6s var(--ease-signal),
+    fill 0.3s ease,
+    stroke 0.3s ease;
+}
+
+/* ------------------------------------------------------------------
+   Blog article body (MDX). Typography uses the same tokens as the rest
+   of the site; wide content (code, math, tables) scrolls inside its own
+   box so the page never scrolls sideways.
+   ------------------------------------------------------------------ */
+.prose-article {
+  max-width: 44rem;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: color-mix(in srgb, var(--text) 86%, var(--bg));
+  overflow-wrap: break-word;
+}
+.prose-article > :first-child {
+  margin-top: 0;
+}
+.prose-article :is(p, ul, ol, blockquote, pre, table, figure, .katex-display) {
+  margin-block: 1.25em;
+}
+.prose-article :is(h2, h3, h4) {
+  color: var(--text);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  scroll-margin-top: 6rem;
+}
+.prose-article h2 {
+  font-size: 1.65em;
+  margin: 2.4em 0 0.8em;
+}
+.prose-article h3 {
+  font-size: 1.3em;
+  margin: 2em 0 0.7em;
+}
+.prose-article h4 {
+  font-size: 1.1em;
+  margin: 1.8em 0 0.6em;
+}
+.prose-article a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--signal);
+  text-underline-offset: 0.2em;
+}
+.prose-article a:hover {
+  color: var(--signal);
+}
+.prose-article :is(ul, ol) {
+  padding-left: 1.4em;
+}
+.prose-article ul {
+  list-style: disc;
+}
+.prose-article ol {
+  list-style: decimal;
+}
+.prose-article li + li {
+  margin-top: 0.35em;
+}
+.prose-article li > :is(ul, ol) {
+  margin-block: 0.35em 0;
+}
+.prose-article li::marker {
+  color: var(--text-faint);
+}
+.prose-article strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.prose-article blockquote {
+  border-left: 2px solid var(--signal);
+  padding-left: 1.2em;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 1.2em;
+  font-style: italic;
+  line-height: 1.55;
+}
+.prose-article hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin-block: 2.5em;
+}
+.prose-article :is(img, video) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+}
+.prose-article figcaption {
+  margin-top: 0.6em;
+  color: var(--text-faint);
+  font-size: 0.85em;
+  text-align: center;
+}
+.prose-article :not(pre) > code {
+  padding: 0.12em 0.35em;
+  border: 1px solid var(--line);
+  border-radius: 0.3em;
+  background: var(--bg-raised);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+.prose-article pre {
+  overflow-x: auto;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--bg-raised) !important;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  line-height: 1.6;
+}
+.prose-article pre code {
+  font-family: inherit;
+}
+.prose-article table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+.prose-article :is(th, td) {
+  padding: 0.55em 0.9em;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+.prose-article th {
+  color: var(--text);
+  font-weight: 500;
+}
+.prose-article .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.25em;
+}
+
+/* Shiki emits both palettes as CSS variables (shikiConfig.defaultColor: false). */
+:root:not([data-theme='light']) .astro-code,
+:root:not([data-theme='light']) .astro-code span {
+  color: var(--shiki-dark);
+}
+:root[data-theme='light'] .astro-code,
+:root[data-theme='light'] .astro-code span {
+  color: var(--shiki-light);
+}

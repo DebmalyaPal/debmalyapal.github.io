@@ -1,0 +1,66 @@
+---
+import '@/styles/global.css';
+import SeoHead from '@/components/SeoHead.astro';
+import SiteNav from '@/components/SiteNav.astro';
+import Footer from '@/components/Footer.astro';
+import { content } from '@/lib/data';
+import { url } from '@/lib/slug';
+
+interface Props {
+  title?: string;
+  description?: string;
+  jsonLd?: Record<string, unknown>[];
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  article?: { publishedTime: string; modifiedTime?: string | null; tags?: string[] };
+}
+
+const props = Astro.props;
+const { site } = content;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" data-motion="full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
+    {/*
+      Runs before first paint so the stored theme never flashes. Motion is always on unless the
+      OS requests reduced motion; data-motion follows that setting live if it changes.
+    */}
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        let theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        root.dataset.theme = theme;
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+        const applyMotion = () => (root.dataset.motion = reduce.matches ? 'reduced' : 'full');
+        applyMotion();
+        reduce.addEventListener?.('change', applyMotion);
+      })();
+    </script>
+    <SeoHead {...props} />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-sm bg-signal px-4 py-2 font-medium text-bg focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      >{site.labels.skipLink}</a
+    >
+    <SiteNav />
+    <main id="main" tabindex="-1" class="flex-1 outline-none">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

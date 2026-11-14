@@ -1,0 +1,228 @@
+---
+import Tag from './Tag';
+import LinkButton from './LinkButton';
+import ProjectDiagram from './ProjectDiagram.astro';
+import type { Project } from '@/lib/schema';
+import { content } from '@/lib/data';
+import { formatRange } from '@/lib/format';
+import { projectUrl, url } from '@/lib/slug';
+
+interface Props {
+  project: Project;
+}
+
+const { project: p } = Astro.props;
+const { projects, experience, research, site } = content;
+const { labels, enums } = site;
+const themeName = Object.fromEntries(research.themes.map((t) => [t.id, t.short]));
+
+// Neighbours in the same order as the projects index, wrapping at the ends.
+const i = projects.findIndex((x) => x.slug === p.slug);
+const prev = projects.length > 1 ? projects[(i - 1 + projects.length) % projects.length] : undefined;
+const next = projects.length > 1 ? projects[(i + 1) % projects.length] : undefined;
+
+// Only relationships stated in the data: shared themes, and experience entries that list this project.
+const related = projects.filter((x) => x.slug !== p.slug && x.themes.some((t) => p.themes.includes(t))).slice(0, 3);
+const roles = experience.filter((e) => e.projects.includes(p.slug));
+
+const subtitle = p.title.startsWith(`${p.shortTitle}: `) ? p.title.slice(p.shortTitle.length + 2) : p.title === p.shortTitle ? null : p.title;
+const facts = [
+  { label: labels.period, value: formatRange(p.start, p.end) },
+  { label: labels.status, value: enums.status[p.status] },
+  { label: labels.type, value: enums.kind[p.kind] },
+  { label: labels.role, value: p.role },
+  { label: labels.affiliation, value: p.affiliation },
+].filter((f): f is { label: string; value: string } => Boolean(f.value));
+const links = [
+  { href: p.links.project, label: labels.project },
+  { href: p.links.paper, label: labels.paper },
+  { href: p.links.repo, label: labels.repo },
+  { href: p.links.demo, label: labels.demo },
+].filter((l) => l.href);
+---
+
+<article>
+  <header class="relative overflow-hidden border-b border-line">
+    <div class="signal-backdrop pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
+    <div class="hairline-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden="true"></div>
+    <div class="container-wide relative pt-10 pb-12 md:pt-14 md:pb-16">
+      <nav aria-label="Breadcrumb">
+        <a href={url('projects/')} class="inline-flex items-center gap-2 font-mono text-xs tracking-wide text-muted uppercase hover:text-ink">
+          <span aria-hidden="true">←</span>
+          {labels.backToProjects}
+        </a>
+      </nav>
+      <p class="eyebrow mt-10 flex flex-wrap gap-x-3 gap-y-1">
+        <span>{enums.kind[p.kind]}</span>
+        {p.status === 'ongoing' && <span class="text-signal">● {enums.status.ongoing}</span>}
+      </p>
+      <h1 class="mt-4 text-display font-medium tracking-tight text-ink">{p.shortTitle}</h1>
+      {subtitle && <p class="mt-4 max-w-3xl font-display text-2xl leading-snug text-muted italic md:text-3xl">{subtitle}</p>}
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink/90">{p.summary}</p>
+      {
+        links.length > 0 && (
+          <div class="mt-8 flex flex-wrap gap-2">
+            {links.map((l, n) => (
+              <LinkButton href={l.href} label={l.label} variant={n === 0 ? 'primary' : 'ghost'} ariaLabel={`${l.label} — ${p.shortTitle}`} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </header>
+
+  <div class="container-wide grid gap-12 py-14 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-16">
+    <aside class="lg:sticky lg:top-24 lg:self-start">
+      <dl class="grid grid-cols-2 gap-x-6 gap-y-5 lg:grid-cols-1">
+        {
+          facts.map((f) => (
+            <div>
+              <dt class="eyebrow">{f.label}</dt>
+              <dd class="mt-1.5 text-sm text-ink">{f.value}</dd>
+            </div>
+          ))
+        }
+        {
+          p.themes.length > 0 && (
+            <div class="col-span-2 lg:col-span-1">
+              <dt class="eyebrow">{labels.themes}</dt>
+              <dd class="mt-2 flex flex-wrap gap-2">
+                {p.themes.map((t) => (
+                  <a href={url(`research/#theme-${t}`)} class="rounded-full hover:opacity-80">
+                    <Tag tone="signal">{themeName[t] ?? t}</Tag>
+                  </a>
+                ))}
+              </dd>
+            </div>
+          )
+        }
+        {
+          p.stack.length > 0 && (
+            <div class="col-span-2 lg:col-span-1">
+              <dt class="eyebrow">{labels.stack}</dt>
+              <dd class="mt-2 flex flex-wrap gap-2">
+                {p.stack.map((s) => (
+                  <Tag>{s}</Tag>
+                ))}
+              </dd>
+            </div>
+          )
+        }
+        {
+          roles.length > 0 && (
+            <div class="col-span-2 lg:col-span-1">
+              <dt class="eyebrow">{labels.partOf}</dt>
+              {roles.map((r) => (
+                <dd class="mt-1.5 text-sm">
+                  <a href={url('experience/')} class="link-underline text-ink">
+                    {r.role}
+                  </a>
+                  <span class="block text-muted">{r.organization}</span>
+                </dd>
+              ))}
+            </div>
+          )
+        }
+      </dl>
+    </aside>
+
+    <div class="min-w-0">
+      {
+        p.description.length > 0 && (
+          <div class="prose-signal max-w-3xl text-[1.06rem] leading-[1.75] text-muted">
+            {p.description.map((para) => (
+              <p>{para}</p>
+            ))}
+          </div>
+        )
+      }
+
+      {
+        p.metrics.length > 0 && (
+          <section aria-labelledby="metrics-heading" class="mt-14">
+            <h2 id="metrics-heading" class="eyebrow mb-5">
+              {labels.metrics}
+            </h2>
+            <ul class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 sm:[&>li:last-child:nth-child(odd)]:col-span-2">
+              {p.metrics.map((m) => (
+                <li class="bg-bg p-6">
+                  <p class="font-display text-5xl leading-none text-signal tabular-nums">{m.value}</p>
+                  <p class="mt-3 text-ink">{m.label}</p>
+                  {m.context && <p class="mt-2 text-xs leading-relaxed text-faint">{m.context}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        p.diagram && (
+          <section aria-labelledby="diagram-heading" class="mt-14">
+            <h2 id="diagram-heading" class="eyebrow mb-5">
+              {labels.diagram} <span class="text-faint">· {labels.conceptualNote}</span>
+            </h2>
+            <ProjectDiagram diagram={p.diagram} />
+          </section>
+        )
+      }
+
+      {
+        p.highlights.length > 0 && (
+          <section aria-labelledby="highlights-heading" class="mt-14">
+            <h2 id="highlights-heading" class="eyebrow mb-5">
+              {labels.highlights}
+            </h2>
+            <ol class="grid max-w-3xl gap-0">
+              {p.highlights.map((h, n) => (
+                <li class="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-2 border-t border-line py-4 leading-relaxed text-muted">
+                  <span class="pt-0.5 font-mono text-xs text-faint" aria-hidden="true">
+                    {String(n + 1).padStart(2, '0')}
+                  </span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      {
+        related.length > 0 && (
+          <section aria-labelledby="related-heading" class="mt-16">
+            <h2 id="related-heading" class="eyebrow mb-5">
+              {labels.relatedProjects}
+            </h2>
+            <ul class="grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
+              {related.map((r) => (
+                <li class="group relative bg-bg p-5 transition-colors hover:bg-raised">
+                  <a href={projectUrl(r.slug)} class="font-medium text-ink after:absolute after:inset-0 group-hover:text-signal">
+                    {r.shortTitle}
+                  </a>
+                  <p class="mt-2 text-sm leading-snug text-muted">{r.summary}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  </div>
+
+  {
+    prev && next && (
+      <nav aria-label="Project" class="border-t border-line">
+        <div class="container-wide grid grid-cols-2 gap-6 py-8">
+          <a href={projectUrl(prev.slug)} class="group min-w-0">
+            <span class="eyebrow block">← {labels.previousProject}</span>
+            <span class="mt-2 block truncate text-lg text-ink group-hover:text-signal">{prev.shortTitle}</span>
+          </a>
+          <a href={projectUrl(next.slug)} class="group min-w-0 text-right">
+            <span class="eyebrow block">{labels.nextProject} →</span>
+            <span class="mt-2 block truncate text-lg text-ink group-hover:text-signal">{next.shortTitle}</span>
+          </a>
+        </div>
+      </nav>
+    )
+  }
+</article>

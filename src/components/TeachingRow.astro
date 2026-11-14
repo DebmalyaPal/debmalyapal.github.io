@@ -1,0 +1,50 @@
+---
+import LinkButton from './LinkButton';
+import type { Teaching } from '@/lib/schema';
+import { content } from '@/lib/data';
+import { formatRange } from '@/lib/format';
+
+interface Props {
+  item: Teaching;
+}
+
+const { item: t } = Astro.props;
+const { labels } = content.site;
+---
+
+<article class="grid gap-4 border-t border-line py-10 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10">
+  <div>
+    <p class="font-display text-4xl leading-none text-ink">{t.course}</p>
+    <p class="mt-3 font-mono text-xs text-faint">{formatRange(t.start, t.end)}</p>
+  </div>
+  <div class="min-w-0">
+    <h2 class="text-2xl leading-tight font-medium tracking-tight text-ink">{t.title}</h2>
+    <p class="mt-1.5 text-base leading-snug text-muted md:text-[1.05rem]">{t.role}</p>
+    <p class="mt-1 text-sm text-faint">{[t.level, `${t.department}, ${t.institution}`].filter(Boolean).join(' · ')}</p>
+    {
+      t.instructor && (
+        <p class="mt-3 text-sm">
+          <span class="text-faint">{labels.instructor}</span> <span class="text-ink">{t.instructor}</span>
+        </p>
+      )
+    }
+    {
+      t.highlights.length > 0 && (
+        <ul class="tick-list mt-5 grid max-w-3xl gap-2.5 text-[0.95rem] leading-relaxed text-muted">
+          {t.highlights.map((h) => (
+            <li>{h}</li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      t.links.length > 0 && (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {t.links.map((l) => (
+            <LinkButton href={l.url} label={l.label} ariaLabel={`${l.label} — ${t.course}`} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>

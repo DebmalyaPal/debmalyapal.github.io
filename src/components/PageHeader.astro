@@ -1,0 +1,19 @@
+---
+interface Props {
+  eyebrow?: string | undefined;
+  heading: string;
+  lede?: string | null | undefined;
+}
+
+const { eyebrow, heading, lede } = Astro.props;
+---
+
+<header class="relative overflow-hidden border-b border-line">
+  <div class="hairline-grid pointer-events-none absolute inset-0 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden="true"></div>
+  <div class="container-wide relative pt-16 pb-12 md:pt-24 md:pb-16">
+    {eyebrow && <p class="eyebrow mb-5">{eyebrow}</p>}
+    <h1 class="max-w-4xl text-title font-medium tracking-tight text-ink">{heading}</h1>
+    {lede && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{lede}</p>}
+    <slot />
+  </div>
+</header>

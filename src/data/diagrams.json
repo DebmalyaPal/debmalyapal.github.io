@@ -1,0 +1,59 @@
+{
+  "claroDag": {
+    "title": "How a CLARO query becomes a plan",
+    "caption": "Conceptual illustration of the architecture described in the project summary. It is not a trace of a real query, does not show the full set of registered capabilities, and is not drawn to scale.",
+    "stages": [
+      { "id": "plan", "label": "Plan", "detail": "A planner decomposes the user's question into a dependency-aware execution DAG and activates only the capabilities that question needs." },
+      { "id": "execute", "label": "Execute", "detail": "Independent tasks run concurrently with bounded parallelism; dependent tasks wait for their inputs. Timeouts and failure isolation keep one failing branch from stalling the rest." },
+      { "id": "ground", "label": "Ground", "detail": "Capabilities use LLM tool use and RAG-based structured retrieval to return typed, source-grounded results — including location-specific demographic, policy, and spatial context." },
+      { "id": "synthesize", "label": "Synthesize", "detail": "Completed results stream to the interface as they finish, while conversational synthesis and speech generation proceed asynchronously." }
+    ],
+    "nodes": [
+      { "id": "query", "label": "Civic policy question", "stage": "plan", "col": 0, "row": 1.5 },
+      { "id": "planner", "label": "Planner", "stage": "plan", "col": 1, "row": 1.5 },
+      { "id": "retrieval", "label": "Evidence retrieval", "stage": "execute", "col": 2, "row": 0 },
+      { "id": "context", "label": "Contextual data", "stage": "execute", "col": 2, "row": 1 },
+      { "id": "stakeholder", "label": "Stakeholder analysis", "stage": "execute", "col": 2, "row": 2 },
+      { "id": "reasoning", "label": "Specialized reasoning", "stage": "execute", "col": 2, "row": 3 },
+      { "id": "analysis", "label": "Analysis & plots", "stage": "ground", "col": 3, "row": 1 },
+      { "id": "evidence", "label": "Typed, sourced results", "stage": "ground", "col": 3, "row": 2.5 },
+      { "id": "synthesis", "label": "Streamed synthesis", "stage": "synthesize", "col": 4, "row": 1.5 }
+    ],
+    "edges": [
+      ["query", "planner"],
+      ["planner", "retrieval"],
+      ["planner", "context"],
+      ["planner", "stakeholder"],
+      ["planner", "reasoning"],
+      ["context", "analysis"],
+      ["retrieval", "evidence"],
+      ["stakeholder", "evidence"],
+      ["reasoning", "evidence"],
+      ["analysis", "synthesis"],
+      ["evidence", "synthesis"]
+    ]
+  },
+  "reflectionPaths": {
+    "title": "Same state, two continuations",
+    "caption": "Schematic of the counterfactual comparison. The three outcomes are the categories the project studies, not results from any specific problem.",
+    "state": { "label": "Intermediate reasoning state", "detail": "A partial solution trajectory, frozen at the same point for both branches." },
+    "probe": { "label": "Hidden-state probe", "detail": "Reads the model's internal representation at this state and predicts whether reflection will help." },
+    "branches": {
+      "direct": { "label": "Direct continuation", "detail": "The model keeps reasoning without an explicit reflection step." },
+      "reflect": { "label": "Reflection-induced continuation", "detail": "The model is prompted to reflect, then continues from the identical state." }
+    },
+    "outcomes": [
+      { "id": "improve", "label": "Reflection helps", "detail": "The reflected branch reaches a better outcome than the direct one." },
+      { "id": "neutral", "label": "No change", "detail": "Both branches reach the same outcome; reflection spent computation without changing the result." },
+      { "id": "harm", "label": "Reflection hurts", "detail": "The reflected branch ends worse than the direct one." }
+    ],
+    "comparison": {
+      "metric": "Spearman correlation with reflection utility",
+      "rows": [
+        { "label": "Uncertainty-based baseline", "value": 0.07 },
+        { "label": "Hidden-state probe", "value": 0.37 }
+      ],
+      "context": "Values as reported in the CV, over 100 MATH problems, 376 intermediate states, and 4,512 rollouts. Scale shown from 0 to 1."
+    }
+  }
+}

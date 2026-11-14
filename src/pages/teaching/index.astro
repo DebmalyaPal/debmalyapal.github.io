@@ -1,0 +1,16 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import TeachingRow from '@/components/TeachingRow.astro';
+import { content } from '@/lib/data';
+
+const { site, teaching } = content;
+const page = site.pages.teaching;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <PageHeader eyebrow={page.eyebrow} heading={page.heading ?? page.title} lede={page.lede} />
+  <div class="container-wide py-8 md:py-12">
+    {teaching.map((t) => <TeachingRow item={t} />)}
+  </div>
+</BaseLayout>

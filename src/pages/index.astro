@@ -1,0 +1,139 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ExperienceTimeline from '@/components/ExperienceTimeline.astro';
+import LinkButton from '@/components/LinkButton';
+import ProjectCard from '@/components/ProjectCard';
+import PublicationRow from '@/components/PublicationRow';
+import SignalFieldHero from '@/islands/SignalFieldHero';
+import ResearchAtlas from '@/islands/ResearchAtlas';
+import { content } from '@/lib/data';
+import { atlasProps, themeNames } from '@/lib/atlas';
+import { personJsonLd } from '@/lib/jsonld';
+import { url } from '@/lib/slug';
+
+const { site, profile, research, projects, publications } = content;
+const { labels, enums, home, pages } = site;
+const names = themeNames(content);
+const featured = projects.filter((p) => p.featured);
+const headline = profile.headline.split('·').map((s) => s.trim()).filter(Boolean);
+const { contact } = profile;
+const cv = contact.cv ? url(contact.cv) : null;
+---
+
+<BaseLayout description={pages.home.description} type="profile" jsonLd={[personJsonLd(profile, new URL(url(), Astro.site).href)]}>
+  <section data-hero aria-labelledby="hero-name" class="relative isolate flex min-h-[calc(100svh-4rem)] overflow-hidden border-b border-line">
+    <div class="signal-backdrop absolute inset-0 -z-20" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10" aria-hidden="true">
+      <SignalFieldHero client:idle />
+    </div>
+    <div
+      class="hairline-grid pointer-events-none absolute inset-0 -z-10 opacity-40 [mask-image:radial-gradient(70%_60%_at_30%_40%,black,transparent)]"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="container-wide flex flex-col justify-between gap-12 pt-12 pb-10 md:pt-20">
+      {/* Stacked below 640px so a separator never dangles at a line end. */}
+      <p class="eyebrow flex items-start gap-3">
+        <span class="mt-[0.4em] inline-block size-1.5 shrink-0 rounded-full bg-signal shadow-[0_0_12px_var(--signal)]" aria-hidden="true"></span>
+        <span class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-3">
+          <span>{profile.position}</span>
+          <span aria-hidden="true" class="hidden sm:inline">/</span>
+          <span>{profile.institutionShort}</span>
+          <span aria-hidden="true" class="hidden sm:inline">/</span>
+          <span class="hidden sm:inline">{profile.location}</span>
+        </span>
+      </p>
+
+      <div class="max-w-5xl">
+        <h1 id="hero-name" class="text-display font-medium tracking-[-0.035em] text-ink">
+          <span class="block">{profile.givenName}</span>
+          <span class="block font-display font-normal tracking-[-0.01em] text-signal italic">{profile.familyName}</span>
+        </h1>
+        <p class="mt-8 max-w-2xl font-display text-[clamp(1.45rem,1.1rem+1.3vw,2.25rem)] leading-[1.2] text-ink">
+          {profile.positioning}
+        </p>
+        <p class="mt-5 max-w-xl leading-relaxed text-muted">{profile.intro}</p>
+        <div class="mt-8 flex flex-wrap gap-2">
+          <LinkButton href={`mailto:${contact.email}`} label={contact.email} variant="primary" ariaLabel={`${labels.email} ${contact.email}`} />
+          <LinkButton href={contact.github} label={labels.github} />
+          <LinkButton href={contact.linkedin} label={labels.linkedin} />
+          <LinkButton href={contact.scholar} label={labels.scholar} />
+          <LinkButton href={cv} label={labels.cv} />
+        </div>
+      </div>
+
+      <div class="border-t border-line pt-5">
+        <ul class="flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.72rem] tracking-wide text-muted" aria-label={labels.interests}>
+          {
+            headline.map((h, i) => (
+              <li class="flex items-center gap-2">
+                <span class:list={['size-1 rounded-full', i % 2 ? 'bg-pulse' : 'bg-signal']} aria-hidden="true" />
+                {h}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="research" aria-labelledby="research-heading" class="relative border-b border-line py-20 md:py-28">
+    <div class="container-wide">
+      <SectionHeading id="research-heading" eyebrow={pages.research.eyebrow} heading={home.researchHeading ?? pages.research.heading ?? ''} link={{ href: url('research/'), label: pages.research.heading ?? pages.research.title }} />
+      <p class="-mt-4 mb-12 max-w-2xl text-lg leading-relaxed text-muted">{research.intro}</p>
+      <ResearchAtlas client:visible {...atlasProps(content)} />
+    </div>
+  </section>
+
+  <section aria-labelledby="featured-heading" class="border-b border-line py-20 md:py-28">
+    <div class="container-wide">
+      <SectionHeading id="featured-heading" eyebrow={pages.projects.eyebrow} heading={home.featuredHeading ?? ''} link={{ href: url('projects/'), label: labels.viewAllProjects }} />
+      <div>
+        {featured.map((p, i) => <ProjectCard project={p} index={i} layout="feature" labels={labels} enums={enums} themeNames={names} />)}
+      </div>
+    </div>
+  </section>
+
+  {
+    publications.length > 0 && (
+      <section aria-labelledby="pubs-heading" class="border-b border-line py-20 md:py-28">
+        <div class="container-wide">
+          <SectionHeading
+            id="pubs-heading"
+            eyebrow={pages.publications.eyebrow}
+            heading={home.publicationsHeading ?? ''}
+            link={{ href: url('publications/'), label: labels.viewAllPublications }}
+          />
+          {publications.slice(0, 3).map((p) => (
+            <PublicationRow pub={p} labels={labels} enums={enums} themeNames={names} compact />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section aria-labelledby="path-heading" class="border-b border-line py-20 md:py-28">
+    <div class="container-wide">
+      <SectionHeading id="path-heading" eyebrow={pages.experience.eyebrow} heading={home.experienceHeading ?? ''} link={{ href: url('experience/'), label: labels.viewExperience }} />
+      <ExperienceTimeline compact headingLevel="h3" />
+    </div>
+  </section>
+
+  <section aria-labelledby="contact-heading" class="relative overflow-hidden py-24 md:py-36">
+    <div class="signal-backdrop pointer-events-none absolute inset-0 opacity-80" aria-hidden="true"></div>
+    <div class="container-wide relative">
+      <p class="eyebrow mb-5">{pages.contact.eyebrow}</p>
+      <h2 id="contact-heading" class="max-w-4xl text-title font-medium tracking-tight text-ink">{home.contactHeading}</h2>
+      {profile.collaborationNote && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{profile.collaborationNote}</p>}
+      <a
+        href={`mailto:${contact.email}`}
+        class="group mt-10 inline-flex max-w-full items-baseline gap-3 font-display text-[clamp(1.6rem,0.8rem+4vw,4rem)] leading-none break-all text-ink hover:text-signal"
+      >
+        {contact.email}
+        <span aria-hidden="true" class="font-sans text-[0.5em] transition-transform duration-500 ease-(--ease-signal) group-hover:translate-x-1.5">→</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

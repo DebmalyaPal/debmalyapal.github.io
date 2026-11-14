@@ -1,0 +1,54 @@
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+*.tsbuildinfo
+.vite/
+.cache/
+
+# Test and audit reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+coverage/
+lighthouse-report*
+*.lighthouse*.html
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+*.tmp
+*.temp
+*.swp
+tmp/
+temp/
+screenshots/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Internal planning and development notes (kept locally, not published)
+docs/
+
+# Integration package, already merged into the site
+astro_blog_addon/
+astro_blog_addon.zip
+
+# Agent configuration: keep the shared blog-publisher skill, ignore local settings
+.claude/*
+!.claude/skills/
+.agents/*
+!.agents/skills/
+CLAUDE.local.md

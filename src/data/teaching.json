@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cse-232-sp26",
+    "course": "CSE 232",
+    "title": "Principles of Database Systems",
+    "level": "Graduate course",
+    "role": "Teaching Assistant",
+    "department": "Computer Science and Engineering",
+    "institution": "UC San Diego",
+    "instructor": "Prof. Alin Deutsch",
+    "start": "2026-03",
+    "end": "2026-06",
+    "highlights": [
+      "Designed edge cases for autograded assignments, ensuring robust evaluation of SQL and relational algebra solutions.",
+      "Configured and maintained the autograder pipeline, validating correctness across diverse query patterns and schema variations.",
+      "Graded midterm and final exams with structured rubric-based feedback across a large student cohort.",
+      "Held weekly office hours on homework, query optimization, and debugging relational schemas."
+    ],
+    "links": []
+  },
+  {
+    "id": "vis-142-fa25",
+    "course": "VIS 142",
+    "title": "Practices in Computing Arts",
+    "level": "Interactive Computing and Arts (ICAM) major",
+    "role": "Teaching Assistant",
+    "department": "Visual Arts",
+    "institution": "UC San Diego",
+    "instructor": "Prof. Brett Stalbaum",
+    "start": "2025-09",
+    "end": "2025-12",
+    "highlights": [
+      "Led 2 discussion sections of ~25 students each, teaching Python, Raspberry Pi, and local LLMs for privacy-preserving creative workflows.",
+      "Guided students through technical and artistic problem-solving, helping them integrate AI tools into their creative practice.",
+      "Evaluated assignments and final projects with detailed feedback on technical and artistic development."
+    ],
+    "links": [
+      { "label": "Course materials", "url": "https://github.com/DebmalyaPal/UCSD-FA25-VIS142" },
+      { "label": "Student portfolio", "url": "https://ucsd-fa25-vis142-portfolio.netlify.app/" }
+    ]
+  }
+]

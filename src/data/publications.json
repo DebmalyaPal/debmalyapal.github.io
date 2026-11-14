@@ -1,0 +1,47 @@
+[
+  {
+    "id": "biomedical-uncertainty-2026",
+    "title": "Probing and Steering Uncertainty in Biomedical Language Models: Representational Structure and Behavioral Limits",
+    "venue": "ACL BioNLP Workshop",
+    "venueShort": "BioNLP @ ACL",
+    "year": 2026,
+    "type": "workshop",
+    "peerReviewed": true,
+    "authorship": "First author",
+    "authors": null,
+    "abstract": null,
+    "summary": "Investigates whether epistemic uncertainty is linearly encoded in biomedical language model representations, and whether it can be controlled via activation steering, across encoder and decoder models.",
+    "themes": ["interpretability", "trustworthy"],
+    "links": { "paper": null, "pdf": null, "code": null, "doi": null }
+  },
+  {
+    "id": "prompt-stylometry-2026",
+    "title": "Prompt Stylometry for On-Device Affect-Adaptive AI: A Feasibility Study in Linguistic Signal Detection and Response Steering",
+    "venue": "ACL PrivateNLP Workshop",
+    "venueShort": "PrivateNLP @ ACL",
+    "year": 2026,
+    "type": "workshop",
+    "peerReviewed": true,
+    "authorship": "First author",
+    "authors": null,
+    "abstract": null,
+    "summary": "Explores privacy-preserving, affect-adaptive language modeling through prompt stylometry.",
+    "themes": ["trustworthy", "interpretability"],
+    "links": { "paper": null, "pdf": null, "code": null, "doi": null }
+  },
+  {
+    "id": "frequencies-to-self-attention-2026",
+    "title": "From Frequencies to Self-Attention: Interpretable Deep Learning for Early Suicide Risk Detection",
+    "venue": "AdComSys Conference (Springer)",
+    "venueShort": "AdComSys",
+    "year": 2026,
+    "type": "conference",
+    "peerReviewed": null,
+    "authorship": "First author",
+    "authors": null,
+    "abstract": null,
+    "summary": null,
+    "themes": ["interpretability"],
+    "links": { "paper": null, "pdf": null, "code": null, "doi": null }
+  }
+]
